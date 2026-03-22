@@ -14,7 +14,7 @@
   {
     "id": "slice-002",
     "name": "Budget comparison engine",
-    "status": "todo",
+    "status": "in_progress",
     "notes": "Compute pass/fail deltas for LCP, CLS, JS KB, blocking time."
   },
   {
