@@ -71,7 +71,7 @@ const renderSparkline = (values: number[]): string => {
         SPARKLINE_BARS.length - 1,
         Math.max(0, Math.round(normalized * (SPARKLINE_BARS.length - 1)))
       );
-      return SPARKLINE_BARS[idx] ?? SPARKLINE_BARS[0];
+      return SPARKLINE_BARS[idx] ?? SPARKLINE_FALLBACK;
     })
     .join('');
 };
