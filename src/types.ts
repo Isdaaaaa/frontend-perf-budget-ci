@@ -56,3 +56,21 @@ export type ArtifactErrorCode =
   | 'MISSING_FIELD'
   | 'INVALID_FIELD_TYPE'
   | 'INVALID_FIELD_VALUE';
+
+export type MetricComparisonStatus = 'pass' | 'fail' | 'missing';
+
+export interface MetricComparison {
+  metric: PerfMetricName;
+  baseline: number;
+  current: number | null;
+  threshold: number;
+  delta: number | null;
+  status: MetricComparisonStatus;
+}
+
+export interface BudgetComparisonResult {
+  pass: boolean;
+  metrics: Record<PerfMetricName, MetricComparison>;
+  failedMetrics: PerfMetricName[];
+  missingMetrics: PerfMetricName[];
+}
