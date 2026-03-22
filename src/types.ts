@@ -111,3 +111,18 @@ export interface DashboardData {
 }
 
 export type DashboardRenderState = 'loading' | 'empty' | 'ready';
+
+export type GithubWebhookIgnoreReason =
+  | 'invalid_payload'
+  | 'unsupported_event'
+  | 'unsupported_pr_action'
+  | 'missing_pull_request'
+  | 'unsupported_workflow_action'
+  | 'missing_artifacts'
+  | 'missing_artifact_payloads';
+
+export type GithubWebhookResult =
+  | { type: 'ignored'; reason: GithubWebhookIgnoreReason }
+  | { type: 'pr_event'; action: 'opened' | 'reopened' | 'synchronize'; prNumber: number }
+  | { type: 'artifact_ingested'; metrics: NormalizedMetrics }
+  | { type: 'report_generated'; metrics: NormalizedMetrics; markdown: string };

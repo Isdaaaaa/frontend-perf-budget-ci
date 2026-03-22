@@ -3,6 +3,7 @@ import { defaultConfig, summarizeConfig } from './lib/config.js';
 export { compareAgainstBudget } from './compare.js';
 export { createEmptyDashboardData, renderDashboard } from './dashboard.js';
 export { formatBudgetComparisonMarkdown, formatBudgetPrComment } from './format.js';
+export { handleGithubWebhook } from './github-app.js';
 export { ArtifactParseError, ingestBaselineFromFiles, ingestBaselineFromStrings, parseBundleMetrics, parseLighthouseMetrics } from './ingest.js';
 export type {
   ArtifactErrorCode,
@@ -16,6 +17,8 @@ export type {
   DashboardRoute,
   DashboardRun,
   DashboardTrendSeries,
+  GithubWebhookIgnoreReason,
+  GithubWebhookResult,
   LighthouseMetrics,
   MetricComparison,
   MetricComparisonStatus,
