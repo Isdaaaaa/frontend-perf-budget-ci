@@ -20,7 +20,7 @@
   {
     "id": "slice-003",
     "name": "PR comment formatter",
-    "status": "todo",
+    "status": "in_progress",
     "notes": "Generate concise PR report with actionable regressions and blame hints."
   },
   {

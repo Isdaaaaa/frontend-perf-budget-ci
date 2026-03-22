@@ -1,6 +1,7 @@
 import { defaultConfig, summarizeConfig } from './lib/config.js';
 
 export { compareAgainstBudget } from './compare.js';
+export { formatBudgetComparisonMarkdown, formatBudgetPrComment } from './format.js';
 export { ArtifactParseError, ingestBaselineFromFiles, ingestBaselineFromStrings, parseBundleMetrics, parseLighthouseMetrics } from './ingest.js';
 export type {
   ArtifactErrorCode,
