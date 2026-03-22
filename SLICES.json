@@ -8,7 +8,7 @@
   {
     "id": "slice-001",
     "name": "Lighthouse/Bundle artifact ingestion",
-    "status": "todo",
+    "status": "in_progress",
     "notes": "Parse JSON artifacts and store baseline metrics."
   },
   {
