@@ -111,35 +111,3 @@ export interface DashboardData {
 }
 
 export type DashboardRenderState = 'loading' | 'empty' | 'ready';
-
-export interface DashboardRouteSummary {
-  route: string;
-  metricSummary: string;
-  status: MetricComparisonStatus;
-  trend: readonly number[];
-  notes?: string;
-}
-
-export interface DashboardRunHistoryEntry {
-  id: string;
-  createdAtLabel: string;
-  commitLabel: string;
-  status: MetricComparisonStatus;
-  summary?: string;
-}
-
-export interface DashboardCommentPreview {
-  title?: string;
-  body: string;
-}
-
-export type DashboardState = 'ready' | 'loading' | 'empty';
-
-export interface DashboardRenderModel {
-  title: string;
-  generatedAtLabel: string;
-  state: DashboardState;
-  routes: readonly DashboardRouteSummary[];
-  runs: readonly DashboardRunHistoryEntry[];
-  commentPreview: DashboardCommentPreview;
-}

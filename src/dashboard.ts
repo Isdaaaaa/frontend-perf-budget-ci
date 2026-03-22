@@ -23,7 +23,8 @@ const STATUS_CLASS: Record<RunStatus, string> = {
   running: 'status-running'
 };
 
-const SPARKLINE_BARS = ['▁', '▂', '▃', '▄', '▅', '▆', '▇', '█'];
+const SPARKLINE_BARS = ['▁', '▂', '▃', '▄', '▅', '▆', '▇', '█'] as const;
+const SPARKLINE_FALLBACK = '▁';
 
 const escapeHtml = (value: string): string =>
   value
@@ -41,7 +42,7 @@ const renderSparkline = (values: number[]): string => {
   }
 
   if (values.length === 1) {
-    return SPARKLINE_BARS[SPARKLINE_BARS.length - 1];
+    return SPARKLINE_BARS[SPARKLINE_BARS.length - 1] ?? SPARKLINE_FALLBACK;
   }
 
   let min = values[0] ?? 0;
@@ -58,7 +59,7 @@ const renderSparkline = (values: number[]): string => {
   }
 
   if (min === max) {
-    return values.map(() => SPARKLINE_BARS[3]).join('');
+    return values.map(() => SPARKLINE_BARS[3] ?? SPARKLINE_FALLBACK).join('');
   }
 
   const range = max - min;
