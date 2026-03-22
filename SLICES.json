@@ -1,0 +1,44 @@
+[
+  {
+    "id": "slice-000",
+    "name": "Bootstrap and scaffolding",
+    "status": "todo",
+    "notes": "Repo setup, lint/test tooling, CI skeleton."
+  },
+  {
+    "id": "slice-001",
+    "name": "Lighthouse/Bundle artifact ingestion",
+    "status": "todo",
+    "notes": "Parse JSON artifacts and store baseline metrics."
+  },
+  {
+    "id": "slice-002",
+    "name": "Budget comparison engine",
+    "status": "todo",
+    "notes": "Compute pass/fail deltas for LCP, CLS, JS KB, blocking time."
+  },
+  {
+    "id": "slice-003",
+    "name": "PR comment formatter",
+    "status": "todo",
+    "notes": "Generate concise PR report with actionable regressions and blame hints."
+  },
+  {
+    "id": "slice-004",
+    "name": "Web dashboard basics",
+    "status": "todo",
+    "notes": "Route list, run history, and trend charts for budgets."
+  },
+  {
+    "id": "slice-005",
+    "name": "GitHub App wiring",
+    "status": "todo",
+    "notes": "Minimal webhook handler for PR events and artifact ingestion."
+  },
+  {
+    "id": "slice-006",
+    "name": "Demo data & docs polish",
+    "status": "todo",
+    "notes": "Sample repo walkthrough, screenshots, README updates."
+  }
+]
