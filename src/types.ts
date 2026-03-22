@@ -74,3 +74,72 @@ export interface BudgetComparisonResult {
   failedMetrics: PerfMetricName[];
   missingMetrics: PerfMetricName[];
 }
+
+export type RouteStatus = 'pass' | 'fail' | 'missing';
+
+export interface DashboardRoute {
+  path: string;
+  status: RouteStatus;
+  metrics: Partial<NormalizedMetrics>;
+}
+
+export type RunStatus = 'pass' | 'fail' | 'running';
+
+export interface DashboardRun {
+  id: string;
+  branch: string;
+  status: RunStatus;
+  startedAt: string;
+  durationMs: number;
+}
+
+export interface DashboardTrendSeries {
+  metric: PerfMetricName;
+  values: number[];
+}
+
+export interface PrCommentPreview {
+  updatedAt: string;
+  body: string;
+}
+
+export interface DashboardData {
+  routes: DashboardRoute[];
+  runs: DashboardRun[];
+  trends: DashboardTrendSeries[];
+  prCommentPreview: PrCommentPreview | null;
+}
+
+export type DashboardRenderState = 'loading' | 'empty' | 'ready';
+
+export interface DashboardRouteSummary {
+  route: string;
+  metricSummary: string;
+  status: MetricComparisonStatus;
+  trend: readonly number[];
+  notes?: string;
+}
+
+export interface DashboardRunHistoryEntry {
+  id: string;
+  createdAtLabel: string;
+  commitLabel: string;
+  status: MetricComparisonStatus;
+  summary?: string;
+}
+
+export interface DashboardCommentPreview {
+  title?: string;
+  body: string;
+}
+
+export type DashboardState = 'ready' | 'loading' | 'empty';
+
+export interface DashboardRenderModel {
+  title: string;
+  generatedAtLabel: string;
+  state: DashboardState;
+  routes: readonly DashboardRouteSummary[];
+  runs: readonly DashboardRunHistoryEntry[];
+  commentPreview: DashboardCommentPreview;
+}

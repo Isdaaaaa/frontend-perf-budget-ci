@@ -1,6 +1,7 @@
 import { defaultConfig, summarizeConfig } from './lib/config.js';
 
 export { compareAgainstBudget } from './compare.js';
+export { renderDashboardHtml } from './dashboard.js';
 export { formatBudgetComparisonMarkdown, formatBudgetPrComment } from './format.js';
 export { ArtifactParseError, ingestBaselineFromFiles, ingestBaselineFromStrings, parseBundleMetrics, parseLighthouseMetrics } from './ingest.js';
 export type {
@@ -10,6 +11,11 @@ export type {
   BaselineMetrics,
   BudgetComparisonResult,
   BundleMetrics,
+  DashboardCommentPreview,
+  DashboardRenderModel,
+  DashboardRouteSummary,
+  DashboardRunHistoryEntry,
+  DashboardState,
   LighthouseMetrics,
   MetricComparison,
   MetricComparisonStatus,
