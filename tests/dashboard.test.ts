@@ -1,83 +1,84 @@
-import test from 'node:test';
 import assert from 'node:assert/strict';
+import test from 'node:test';
 
-import { renderDashboardHtml } from '../src/dashboard.js';
-import type { DashboardRenderModel } from '../src/types.js';
+import { createEmptyDashboardData, renderDashboard } from '../src/dashboard.js';
+import type { DashboardData } from '../src/types.js';
 
-test('renderDashboardHtml renders populated dashboard with trends and preview', () => {
-  const model: DashboardRenderModel = {
-    title: 'Frontend Perf Budget CI',
-    generatedAtLabel: '2026-03-22 11:22 UTC',
-    state: 'ready',
+test('renderDashboard renders deterministic populated dashboard HTML', () => {
+  const data: DashboardData = {
     routes: [
       {
-        route: '/home',
-        metricSummary: 'LCP 1800ms · CLS 0.04 · JS 162kb · TBT 140ms',
+        path: '/home',
         status: 'pass',
-        trend: [2.2, 2.0, 1.9, 1.8],
-        notes: 'Hero image optimized'
+        metrics: { lcp: 1700, cls: 0.06, js_kb: 142, tbt: 85 }
       },
       {
-        route: '/checkout',
-        metricSummary: 'LCP 2900ms · CLS 0.16 · JS 241kb · TBT 280ms',
+        path: '/pricing',
         status: 'fail',
-        trend: [2.4, 2.6, 2.8, 2.9],
-        notes: 'Bundle grew after payment SDK update'
+        metrics: { lcp: 2100, cls: 0.11, js_kb: 188, tbt: 130 }
       }
     ],
     runs: [
       {
-        id: 'run-1042',
-        createdAtLabel: '10m ago',
-        commitLabel: 'a1b2c3d',
+        id: '4201',
+        branch: 'main',
+        status: 'pass',
+        startedAt: '2026-03-22T09:30:00Z',
+        durationMs: 51234
+      },
+      {
+        id: '4200',
+        branch: 'feature/perf',
         status: 'fail',
-        summary: 'Checkout route exceeded JS budget by +32kb'
+        startedAt: '2026-03-22T08:40:00Z',
+        durationMs: 60111
       }
     ],
-    commentPreview: {
-      title: 'Bot comment',
-      body: '## Performance Budget Report — ❌ FAIL\n- ❌ `js_kb` on /checkout'
+    trends: [
+      { metric: 'lcp', values: [1900, 1850, 1800, 1700] },
+      { metric: 'cls', values: [0.1, 0.08, 0.06, 0.06] },
+      { metric: 'js_kb', values: [180, 170, 160, 150] },
+      { metric: 'tbt', values: [140, 130, 100, 90] }
+    ],
+    prCommentPreview: {
+      updatedAt: '2026-03-22T09:31:00Z',
+      body: '## Performance Budget Report — ✅ PASS\nSummary: 4 passing, 0 failing, 0 missing.'
     }
   };
 
-  const html = renderDashboardHtml(model);
+  const first = renderDashboard({ state: 'ready', data });
+  const second = renderDashboard({ state: 'ready', data });
 
-  assert.match(html, /Route budget summary/);
-  assert.match(html, /Recent CI runs/);
-  assert.match(html, /PR comment preview/);
-  assert.match(html, /run-1042/);
-  assert.match(html, /Hero image optimized/);
-  assert.match(html, /▁|▂|▃|▄|▅|▆|▇|█/);
-  assert.match(html, /chip-pass/);
-  assert.match(html, /chip-fail/);
-  assert.match(html, /@media \(max-width: 900px\)/);
-  assert.ok(html.startsWith('<!doctype html>'));
+  assert.equal(first, second);
+  assert.match(first, /Frontend Perf Budget Dashboard/);
+  assert.match(first, /Route List/);
+  assert.match(first, /Run History Timeline/);
+  assert.match(first, /Trend Sparklines/);
+  assert.match(first, /PR Comment Preview/);
+  assert.match(first, /#4201/);
+  assert.match(first, /aria-label="lcp trend"/);
+  assert.match(first, /Performance Budget Report/);
+  assert.match(first, /#1E4B99/);
+  assert.match(first, /#8BC34A/);
+  assert.match(first, /@media \(max-width: 800px\)/);
 });
 
-test('renderDashboardHtml supports loading and empty states', () => {
-  const loading: DashboardRenderModel = {
-    title: 'Frontend Perf Budget CI',
-    generatedAtLabel: 'just now',
-    state: 'loading',
-    routes: [],
-    runs: [],
-    commentPreview: { body: '' }
-  };
+test('renderDashboard supports explicit loading and empty states', () => {
+  const loading = renderDashboard({ state: 'loading' });
+  const empty = renderDashboard({ state: 'empty' });
+  const seededEmpty = renderDashboard({
+    state: 'ready',
+    data: createEmptyDashboardData()
+  });
 
-  const empty: DashboardRenderModel = {
-    title: 'Frontend Perf Budget CI',
-    generatedAtLabel: 'a while ago',
-    state: 'empty',
-    routes: [],
-    runs: [],
-    commentPreview: { body: '' }
-  };
+  assert.match(loading, /Loading dashboard/);
+  assert.match(loading, /Loading route budgets, CI run history, trend sparklines, and PR comment preview/);
 
-  const loadingHtml = renderDashboardHtml(loading);
-  const emptyHtml = renderDashboardHtml(empty);
+  assert.match(empty, /Dashboard is empty/);
+  assert.match(empty, /Run a baseline check to populate this dashboard/);
 
-  assert.match(loadingHtml, /Loading dashboard…/);
-  assert.match(loadingHtml, /Refreshing latest CI artifacts…/);
-  assert.match(emptyHtml, /No performance data yet/);
-  assert.match(emptyHtml, /Run the CI workflow once/);
+  assert.match(seededEmpty, /No tracked routes yet/);
+  assert.match(seededEmpty, /No CI runs yet/);
+  assert.match(seededEmpty, /aria-label="lcp trend">—</);
+  assert.match(seededEmpty, /No PR comment preview yet/);
 });
