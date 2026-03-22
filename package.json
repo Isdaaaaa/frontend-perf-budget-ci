@@ -1,0 +1,37 @@
+{
+  "name": "frontend-perf-budget-ci",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Bootstrap scaffold for frontend performance budget CI tooling.",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "lint": "eslint .",
+    "test": "node --import tsx --test tests/**/*.test.ts",
+    "test:watch": "node --watch --import tsx --test tests/**/*.test.ts",
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/index.js"
+  },
+  "keywords": [
+    "typescript",
+    "node",
+    "ci",
+    "performance-budget"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "@eslint/js": "^9.22.0",
+    "@types/node": "^22.13.10",
+    "eslint": "^9.22.0",
+    "eslint-config-prettier": "^10.1.1",
+    "globals": "^16.0.0",
+    "prettier": "^3.5.3",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2",
+    "typescript-eslint": "^8.26.1"
+  }
+}

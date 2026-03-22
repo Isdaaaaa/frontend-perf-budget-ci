@@ -2,7 +2,7 @@
   {
     "id": "slice-000",
     "name": "Bootstrap and scaffolding",
-    "status": "todo",
+    "status": "done",
     "notes": "Repo setup, lint/test tooling, CI skeleton."
   },
   {
